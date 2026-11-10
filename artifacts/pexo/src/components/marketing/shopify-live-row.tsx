@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useCart } from "@/hooks/use-shopify-cart";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { shopifyService } from "@/lib/shopify-service";
+import { useMarketChangeListener } from "@/lib/market-manager";
 
 type Product = {
   id: string;
@@ -62,6 +63,7 @@ export function ShopifyLiveRow({ sectionTitle, rowId, rowClass }: Props) {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+  useMarketChangeListener(load);
 
   useEffect(() => {
     if (rowId !== "sprow") return;

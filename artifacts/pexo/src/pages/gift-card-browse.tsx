@@ -9,6 +9,11 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useGiftCardProducts, useGiftCardCategories, useGiftCardCountries } from "@/hooks/use-reloadly";
+import {
+  GIFT_CARD_MARKET_CHANGED_EVENT,
+  getGiftCardMarketCountry,
+  setGiftCardMarketCountry,
+} from "@/lib/gift-card-market";
 import { mapProducts, ProductCardGrid } from "@/components/gift-card-browse-cards";
 
 // ── Sidebar (shared with main page, but locally defined here to avoid circular imports) ──
@@ -79,7 +84,7 @@ export function GiftCardBrowse() {
   const [sortBy,       setSortBy]         = useState("Popular");
   const [page,         setPage]           = useState(1);
   const [openCountry,  setOpenCountry]    = useState(false);
-  const [countryCode,  setCountryCode]    = useState<string | undefined>(undefined);
+  const [countryCode,  setCountryCode]    = useState<string | undefined>(getGiftCardMarketCountry);
   const [accumulated,  setAccumulated]    = useState<import("@/hooks/use-reloadly").ReloadlyProduct[]>([]);
 
   useHead({
@@ -89,6 +94,28 @@ export function GiftCardBrowse() {
 
   const { data: reloadlyCountries } = useGiftCardCountries();
   const activeCountryObj = (reloadlyCountries ?? []).find(c => c.isoName === countryCode);
+
+  useEffect(() => {
+    const handleCountryChange = (event: Event) => {
+      const code = (event as CustomEvent<{ countryCode?: string }>).detail?.countryCode;
+      setCountryCode(code);
+      setPage(1);
+      setAccumulated([]);
+    };
+    window.addEventListener(GIFT_CARD_MARKET_CHANGED_EVENT, handleCountryChange);
+    return () => window.removeEventListener(GIFT_CARD_MARKET_CHANGED_EVENT, handleCountryChange);
+  }, []);
+
+  useEffect(() => {
+    if (
+      countryCode &&
+      reloadlyCountries?.length &&
+      !reloadlyCountries.some(country => country.isoName === countryCode)
+    ) {
+      setCountryCode(undefined);
+      setGiftCardMarketCountry(undefined);
+    }
+  }, [countryCode, reloadlyCountries]);
 
   const { data, isLoading, isFetching } = useGiftCardProducts({
     page,
@@ -139,6 +166,7 @@ export function GiftCardBrowse() {
 
   const handleCountrySelect = (code: string | undefined) => {
     setCountryCode(code);
+    setGiftCardMarketCountry(code);
     setOpenCountry(false);
     setPage(1);
     setAccumulated([]);

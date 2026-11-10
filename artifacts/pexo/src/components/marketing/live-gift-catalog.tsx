@@ -11,6 +11,11 @@ import {
 } from "@/hooks/use-reloadly";
 import { getRecipientDenominationRange } from "@/lib/gift-card-denominations";
 import { isSupabaseConfigured } from "@/lib/supabase";
+import {
+  GIFT_CARD_MARKET_CHANGED_EVENT,
+  getGiftCardMarketCountry,
+  setGiftCardMarketCountry,
+} from "@/lib/gift-card-market";
 
 type GiftContextValue = {
   countries: ReturnType<typeof useGiftCardCountries>["data"];
@@ -55,7 +60,9 @@ function amountFrom(product: ReloadlyProduct) {
 
 export function GiftExportProvider({ children }: { children: ReactNode }) {
   const [, navigate] = useLocation();
-  const [countryCode, setCountryCode] = useState("NG");
+  const [countryCode, setCountryCodeState] = useState(
+    () => getGiftCardMarketCountry() ?? "NG",
+  );
   const [search, setSearch] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
   const { items } = useGiftCardCart();
@@ -66,9 +73,24 @@ export function GiftExportProvider({ children }: { children: ReactNode }) {
   const products = productsQuery.data?.content ?? [];
   const countries = countriesQuery.data ?? [];
 
+  const setCountryCode = (code: string) => {
+    setCountryCodeState(code);
+    setGiftCardMarketCountry(code);
+  };
+
+  useEffect(() => {
+    const handleCountryChange = (event: Event) => {
+      const code = (event as CustomEvent<{ countryCode?: string }>).detail?.countryCode;
+      setCountryCodeState(code ?? "NG");
+    };
+    window.addEventListener(GIFT_CARD_MARKET_CHANGED_EVENT, handleCountryChange);
+    return () => window.removeEventListener(GIFT_CARD_MARKET_CHANGED_EVENT, handleCountryChange);
+  }, []);
+
   useEffect(() => {
     if (countries.length && !countries.some((country) => country.isoName === countryCode)) {
-      setCountryCode((countries.find((country) => country.isoName === "NG") ?? countries[0]).isoName);
+      const fallback = countries.find((country) => country.isoName === "NG") ?? countries[0];
+      setCountryCode(fallback.isoName);
     }
   }, [countryCode, countries]);
 

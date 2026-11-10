@@ -34,7 +34,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getSupabase } from "@/lib/supabase";
-import { shopifyService } from "@/lib/shopify-service";
+import { MARKET_CHANGED_EVENT, shopifyService } from "@/lib/shopify-service";
 import type { ImportedReview } from "@/lib/shopify-service";
 import { devLog } from "@/lib/dev-logger";
 import { resolveCjVid } from "@/lib/cj-vid";
@@ -468,6 +468,7 @@ export function ProductDetail() {
   const [, navigate] = useLocation();
   const [product, setProduct] = useState<Listing | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [marketRevision, setMarketRevision] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
   const [reportOpen, setReportOpen] = useState(false);
   const [reportReason, setReportReason] = useState("counterfeit");
@@ -498,6 +499,12 @@ export function ProductDetail() {
     return () => mql.removeEventListener("change", handler);
   }, []);
   
+  useEffect(() => {
+    const handleMarketChange = () => setMarketRevision(revision => revision + 1);
+    window.addEventListener(MARKET_CHANGED_EVENT, handleMarketChange);
+    return () => window.removeEventListener(MARKET_CHANGED_EVENT, handleMarketChange);
+  }, []);
+
   // Store the raw Shopify product data so we don't re-fetch on add-to-cart
   const shopifyDataRef = useRef<any>(null);
   // Mobile Description/Reviews tabs no longer swap content — both sections
@@ -658,7 +665,7 @@ export function ProductDetail() {
     return () => {
       shopifyDataRef.current = null;
     };
-  }, [id]);
+  }, [id, marketRevision]);
 
   // Gallery index 0 is now usually a video — always start there for each product.
   useEffect(() => {
