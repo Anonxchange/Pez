@@ -22363,3 +22363,33 @@ html.dark .webflow-auth-shell .auth-button:where(.w-variant-80454ff6-0e3c-af76-c
 
 .export-page.current-source-page-blogs .fb-small-blog-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 /* CURRENT HTML SOURCE STYLES: END */
+
+/* Gift card showcase: keep the original purple canvas and let the card art fill it. */
+.export-page .gift-card-art {
+  box-sizing: border-box;
+  padding: clamp(14px, 2.2vw, 24px);
+}
+
+.export-page .gift-card-brand-grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: clamp(8px, 1vw, 12px);
+}
+
+.export-page .gift-card-brand-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 191 / 105;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(43, 40, 91, 0.18);
+}
+
+.export-page .gift-card-brand-grid img:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: calc(50% - 4px);
+}

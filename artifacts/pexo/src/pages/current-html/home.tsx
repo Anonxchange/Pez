@@ -433,23 +433,13 @@ export function PexlyHomepage() {
                       <div id={"home-panel-1"} aria-labelledby={"home-tab-1"} role={"tabpanel"} data-w-tab={"Tab 1"} className={"how-it-work-tab-panel w-tab-pane w--tab-active"}>
                         <div className={"tab-panel-content-wrapper"}>
                           <div className={"tab-panel-content-image-block"}>
-                            <div className={"px-art"} style={{"background": "#bcc6ff"} as any}>
-                              <div className={"gc-panel"} aria-label={"Gift card brands"} style={{"width": "86%", "aspectRatio": "1 / 0.92", "display": "flex", "flexDirection": "column", "justifyContent": "center", "gap": "5%", "overflow": "hidden", "borderRadius": "18px", "border": "1px solid rgba(255,255,255,.18)", "background": "linear-gradient(160deg,#2a3a63,#0b1630)", "boxShadow": "0 20px 50px rgba(9,30,28,.28)"} as any}>
-                                  <div style={{"display": "flex", "gap": "3.5%", "marginLeft": "-7%"} as any}>
-                                      <img src={"/marketing-media/gift-cards/hm.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                      <img src={"/marketing-media/gift-cards/amazon.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                      <img src={"/marketing-media/gift-cards/airbnb.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                  </div>
-                                  <div style={{"display": "flex", "gap": "3.5%", "marginLeft": "5%"} as any}>
-                                      <img src={"/marketing-media/gift-cards/uber.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                      <img src={"/marketing-media/gift-cards/uber-eats.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                      <img src={"/marketing-media/gift-cards/hm.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                  </div>
-                                  <div style={{"display": "flex", "gap": "3.5%", "marginLeft": "-12%"} as any}>
-                                      <img src={"/marketing-media/gift-cards/airbnb.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                      <img src={"/marketing-media/gift-cards/amazon.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                      <img src={"/marketing-media/gift-cards/uber.png"} alt={""} loading={"lazy"} style={{"width": "30%", "flex": "none", "aspectRatio": "191 / 105", "objectFit": "cover", "borderRadius": "7px", "boxShadow": "0 4px 14px rgba(0,0,0,.35)"} as any} />
-                                  </div>
+                            <div className={"px-art gift-card-art"} style={{"background": "#bcc6ff"} as any}>
+                              <div className={"gift-card-brand-grid"} role={"group"} aria-label={"Gift card brands"}>
+                                <img src={"/marketing-media/gift-cards/amazon.png"} alt={"Amazon gift card"} loading={"lazy"} />
+                                <img src={"/marketing-media/gift-cards/h&m.png"} alt={"H&M gift card"} loading={"lazy"} />
+                                <img src={"/marketing-media/gift-cards/airbnb.png"} alt={"Airbnb gift card"} loading={"lazy"} />
+                                <img src={"/marketing-media/gift-cards/uber.png"} alt={"Uber gift card"} loading={"lazy"} />
+                                <img src={"/marketing-media/gift-cards/uber-eats.png"} alt={"Uber Eats gift card"} loading={"lazy"} />
                               </div>
                             </div>
                           </div>
